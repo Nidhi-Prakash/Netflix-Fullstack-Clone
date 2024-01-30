@@ -1,12 +1,12 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import styled from "styled-components";
 import { fetchDataByGenre } from "../store";
-export default function SelectGenre({ genres, type }) {
+
+const SelectGenre = ({ genres, type }) => {
   const dispatch = useDispatch();
   return (
-    <Select
-      className="flex"
+    <select
+      className="flex justify-center items-center ml-[5rem] text-[1.4rem] bg-[#00000066] text-[#ffffff] cursor-pointer"
       onChange={(e) => {
         dispatch(
           fetchDataByGenre({
@@ -19,19 +19,14 @@ export default function SelectGenre({ genres, type }) {
     >
       {genres.map((genre) => {
         return (
-          <option value={genre.id} key={genre.id}>
+          <option value={genre.id} key={genre.id} className="border">
             {genre.name}
           </option>
         );
       })}
-    </Select>
+    </select>
   );
-}
+};
 
-const Select = styled.select`
-  margin-left: 5rem;
-  cursor: pointer;
-  font-size: 1.4rem;
-  background-color: rgba(0, 0, 0, 0.4);
-  color: white;
-`;
+export default SelectGenre;
+

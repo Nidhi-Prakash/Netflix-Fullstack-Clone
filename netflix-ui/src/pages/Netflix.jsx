@@ -42,87 +42,44 @@ function Netflix() {
   };
 
   return (
-    <Container>
-      <Navbar isScrolled={isScrolled} />
-      <div className="hero">
-        <img
-          src={backgroundImage}
-          alt="background"
-          className="background-image"
-        />
-        <div className="container">
-          <div className="logo">
-            <img src={MovieLogo} alt="Movie Logo" />
-          </div>
-          <div className="buttons flex">
-            <button
-              onClick={() => navigate("/player")}
-              className="flex j-center a-center"
-            >
-              <FaPlay />
-              Play
-            </button>
-            <button className="flex j-center a-center">
-              <AiOutlineInfoCircle />
-              More Info
-            </button>
+    <>
+      <div className="bg-black">
+        <Navbar isScrolled={isScrolled} />
+        <div className="relative">
+          <img
+            src={backgroundImage}
+            alt="background"
+            className="brightness-[60%] h-full w-full"
+          />
+          <div className="absolute bottom-[5rem]">
+            <div className="logo">
+              <img
+                src={MovieLogo}
+                alt="Movie Logo"
+                className="h-full w-full ml-[5rem]"
+              />
+            </div>
+            <div className="m-[5rem] gap-[2rem] flex">
+              <button
+                onClick={() => navigate("/player")}
+                className="flex justify-center items-center text-[1.4rem] gap-[1rem] rounded-[0.2rem] p-[0.5rem] pl-[2rem] pr-[2.4rem] border-none cursor-pointer transition-all duration-200 ease-in-out hover:opaccity-[0.8] bg-[#6d6d6eb3]"
+              >
+                <FaPlay />
+                Play
+              </button>
+              <button className="flex justify-center items-center bg-[#6d6d6eb3] text-[#ffffff]">
+                <AiOutlineInfoCircle />
+                More Info
+              </button>
+            </div>
           </div>
         </div>
+        <Slider movies={movies} />
+        <div className="w-full h-[0.5rem] bg-[#232323] mt-[4.5rem]"></div>
+        <FaqList />
       </div>
-      <Slider movies={movies} />
-      <div className="w-full h-[0.5rem] bg-[#232323] mt-[4.5rem]"></div>
-      <FaqList />
-    </Container>
+    </>
   );
 }
 
-const Container = styled.div`
-  background-color: black;
-  .hero {
-    position: relative;
-    .background-image {
-      filter: brightness(60%);
-    }
-    img {
-      height: 100vh;
-      width: 100vw;
-    }
-    .container {
-      position: absolute;
-      bottom: 5rem;
-      .logo {
-        img {
-          width: 100%;
-          height: 100%;
-          margin-left: 5rem;
-        }
-      }
-      .buttons {
-        margin: 5rem;
-        gap: 2rem;
-        button {
-          font-size: 1.4rem;
-          gap: 1rem;
-          border-radius: 0.2rem;
-          padding: 0.5rem;
-          padding-left: 2rem;
-          padding-right: 2.4rem;
-          border: none;
-          cursor: pointer;
-          transition: 0.2s ease-in-out;
-          &:hover {
-            opacity: 0.8;
-          }
-          &:nth-of-type(2) {
-            background-color: rgba(109, 109, 110, 0.7);
-            color: white;
-            svg {
-              font-size: 1.8rem;
-            }
-          }
-        }
-      }
-    }
-  }
-`;
 export default Netflix;

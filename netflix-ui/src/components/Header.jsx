@@ -1,36 +1,20 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
 import logo from "../assets/logo.png";
 
-export default function Header(props) {
+const Header = (props) => {
   const navigate = useNavigate();
   return (
-    <StyledHeader className="flex a-center j-between">
-      <div className="logo">
-        <img src={logo} alt="logo" />
-      </div>
-      <button onClick={() => navigate(props.login ? "/login" : "/signup")}>
+    <div className="flex justify-between items-center px-[4rem] my-5">
+      <img src={logo} alt="logo" className="h-[4rem]" />
+      <button
+        onClick={() => navigate(props.login ? "/login" : "/signup")}
+        className="py-[0.5rem] px-[1rem] bg-[#e50914] cursor-pointer rounded-[0.2rem] font-bolder text-[1.05rem]"
+      >
         {props.login ? "Log In" : "Sign Up"}
       </button>
-    </StyledHeader>
+    </div>
   );
-}
-const StyledHeader = styled.header`
-  padding: 0 4rem;
-  .logo {
-    img {
-      height: 5rem;
-    }
-  }
-  button {
-    padding: 0.5rem 1rem;
-    background-color: #e50914;
-    border: none;
-    cursor: pointer;
-    color: white;
-    border-radius: 0.2rem;
-    font-weight: bolder;
-    font-size: 1.05rem;
-  }
-`;
+};
+
+export default Header;

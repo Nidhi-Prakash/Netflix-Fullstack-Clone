@@ -39,7 +39,9 @@ const FaqList = () => {
   const [showAnswer, setShowAnswer] = useState(0);
   return (
     <div className="flex mx-auto flex-col pt-[4.5rem] mb-[2rem]">
-      <div className="text-[3rem] font-extrabold flex mx-auto mb-[1.5rem]">Frequently Asked Questions</div>
+      <div className="text-[3rem] font-extrabold flex mx-auto mb-[1.5rem]">
+        Frequently Asked Questions
+      </div>
       {FAQ.map((value, index) => {
         return (
           <div key={value.id}>
@@ -51,7 +53,7 @@ const FaqList = () => {
             >
               <span className="text-[24px]">{value.Question}</span>
               <span>
-                {showAnswer !== 0 ? (
+                {showAnswer !== 0 && showAnswer === value.id ? (
                   <RxCross1 style={{ width: "30px", height: "30px" }} />
                 ) : (
                   <TfiPlus style={{ width: "30px", height: "30px" }} />

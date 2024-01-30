@@ -11,7 +11,7 @@ import SelectGenre from "../components/SelectGenre";
 import Slider from "../components/Slider";
 import NotAvailable from "../components/NotAvailable";
 
-function MoviePage() {
+const MoviePage = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const movies = useSelector((state) => state.netflix.movies);
   const genres = useSelector((state) => state.netflix.genres);
@@ -43,26 +43,16 @@ function MoviePage() {
   };
 
   return (
-    <Container>
-      <div className="navbar">
+    <div>
+      <div>
         <Navbar isScrolled={isScrolled} />
       </div>
-      <div className="data">
+      <div className="mt-[8rem]">
         <SelectGenre genres={genres} type="movie" />
         {movies.length ? <Slider movies={movies} /> : <NotAvailable />}
       </div>
-    </Container>
+    </div>
   );
-}
+};
 
-const Container = styled.div`
-  .data {
-    margin-top: 8rem;
-    .not-available {
-      text-align: center;
-      color: white;
-      margin-top: 4rem;
-    }
-  }
-`;
 export default MoviePage;
