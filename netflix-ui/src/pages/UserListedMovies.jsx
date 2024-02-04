@@ -1,11 +1,8 @@
-import axios from "axios";
 import { onAuthStateChanged } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { firebaseAuth } from "../utils/firebase-config";
 import Card from "../components/Card";
-import styled from "styled-components";
-import Navbar from "../components/Navbar";
 import { getUsersLikedMovies } from "../store";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -34,11 +31,10 @@ const UserListedMovies = () => {
 
   return (
     <div>
-      <Navbar isScrolled={isScrolled} />
       <div className="flex m-[2.3rem] mt-[8rem] gap-[3rem] flex-col">
         <h1 className="ml-[3rem]">My List</h1>
         <div className="grid grid-cols-7 gap-[1rem]">
-          {movies.map((movie, index) => {
+          {movies?.map((movie, index) => {
             return (
               <Card
                 movieData={movie}

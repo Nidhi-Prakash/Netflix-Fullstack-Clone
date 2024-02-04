@@ -17,7 +17,7 @@ const SelectGenre = ({ genres, type }) => {
         );
       }}
     >
-      {genres.map((genre) => {
+      {genres?.map((genre) => {
         return (
           <option value={genre.id} key={genre.id} className="border">
             {genre.name}
@@ -29,4 +29,3 @@ const SelectGenre = ({ genres, type }) => {
 };
 
 export default SelectGenre;
-

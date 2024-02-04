@@ -1,7 +1,6 @@
 import React, { useRef, useState } from "react";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import Card from "./Card";
-
 export default React.memo(function CardSlider({ data, title }) {
   const listRef = useRef();
   const [sliderPosition, setSliderPosition] = useState(0);
@@ -41,7 +40,7 @@ export default React.memo(function CardSlider({ data, title }) {
           className="flex gap-[1rem] ml-[50px] w-max translate-x-0 transition-transform duration-300 ease-in-out"
           ref={listRef}
         >
-          {data.map((movie, index) => {
+          {data?.map((movie, index) => {
             return <Card movieData={movie} index={index} key={movie.id} />;
           })}
         </div>

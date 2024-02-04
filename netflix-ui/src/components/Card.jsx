@@ -8,6 +8,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { firebaseAuth } from "../utils/firebase-config";
 import { useDispatch } from "react-redux";
 import { removeMovieFromLiked } from "../store";
+// import { RiThumbUpFill, RiThumbDownFill } from "react-icons/ri";
 // import video from "../assets/video.mp4";
 
 export default React.memo(function Card({ index, movieData, isLiked = false }) {
@@ -60,6 +61,8 @@ export default React.memo(function Card({ index, movieData, isLiked = false }) {
                   title="Play"
                   onClick={() => navigate("/player")}
                 />
+                {/* <RiThumbUpFill title="Like" />
+                <RiThumbDownFill title="Dislike" /> */}
                 {isLiked ? (
                   <BsCheck
                     className="hover:text-[#b8b8b8]"
@@ -81,7 +84,7 @@ export default React.memo(function Card({ index, movieData, isLiked = false }) {
             </div>
             <div className="flex">
               <ul className="flex list-none gap-4">
-                {movieData.genres.map((genre) => (
+                {movieData.genres?.map((genre) => (
                   <li className="pr-[0.7rem]">{genre}</li>
                 ))}
               </ul>

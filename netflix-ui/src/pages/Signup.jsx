@@ -19,8 +19,6 @@ const Signup = () => {
     password: "",
   });
   const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  const passwordRegex =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
   const navigate = useNavigate();
 
   const handleSignIn = async () => {
@@ -29,7 +27,7 @@ const Signup = () => {
       email === "" ||
       password === "" ||
       !emailRegex.test(email) ||
-      !passwordRegex.test(password)
+      password.length < 8
     ) {
       if (email === "") {
         setShowEmailError(true);
@@ -40,7 +38,7 @@ const Signup = () => {
       if (!emailRegex.test(email)) {
         setIsValidEmailId(false);
       }
-      if (!passwordRegex.test(password)) {
+      if (password.length < 8) {
         setIsValidPassword(false);
       }
       return;
@@ -112,6 +110,7 @@ const Signup = () => {
                         [e.target.name]: e.target.value,
                       });
                       setShowPasswordError(false);
+                      console.log("setting true in password validity");
                       setIsValidPassword(true);
                     }}
                     name="password"
@@ -159,6 +158,6 @@ const Signup = () => {
       </div>
     </div>
   );
-}
+};
 
 export default Signup;

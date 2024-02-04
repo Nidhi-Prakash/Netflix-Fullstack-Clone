@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-import Navbar from "../components/Navbar";
-import CardSlider from "../components/CardSlider";
 import { onAuthStateChanged } from "firebase/auth";
 import { firebaseAuth } from "../utils/firebase-config";
 import { useNavigate } from "react-router-dom";
@@ -22,7 +19,7 @@ const TVShows = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!genres.length) dispatch(getGenres());
+    if (!genres?.length) dispatch(getGenres());
   }, []);
 
   useEffect(() => {
@@ -45,10 +42,9 @@ const TVShows = () => {
 
   return (
     <div>
-      <Navbar isScrolled={isScrolled} />
       <div className="mt-[8rem]">
         <SelectGenre genres={genres} type="tv" />
-        {movies.length ? (
+        {movies?.length ? (
           <>
             <Slider movies={movies} />
           </>
@@ -58,6 +54,6 @@ const TVShows = () => {
       </div>
     </div>
   );
-}
+};
 
 export default TVShows;

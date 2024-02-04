@@ -3,7 +3,7 @@ import CardSlider from "./CardSlider";
 
 const Slider = ({ movies }) => {
   const getMoviesFromRange = (from, to) => {
-    return movies.slice(from, to);
+    return movies?.slice(from, to);
   };
   return (
     <div>

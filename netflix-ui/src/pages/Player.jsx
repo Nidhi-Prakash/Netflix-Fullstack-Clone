@@ -1,11 +1,16 @@
 import React from "react";
-import styled from "styled-components";
 import { BsArrowLeft } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import video from "../assets/video.mp4";
+import { onAuthStateChanged } from "firebase/auth";
+import { firebaseAuth } from "../utils/firebase-config";
 
 const Player = () => {
   const navigate = useNavigate();
+
+  onAuthStateChanged(firebaseAuth, (currentUser) => {
+    if (!currentUser) navigate("/login");
+  });
 
   return (
     <div>
