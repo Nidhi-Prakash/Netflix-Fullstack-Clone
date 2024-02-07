@@ -4,24 +4,52 @@ import {
 } from "firebase/auth";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
 import BackgroundImage from "../components/BackgroundImage";
 import Header from "../components/Header";
 import { firebaseAuth } from "../utils/firebase-config";
-function Signup() {
+
+const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [showEmailError, setShowEmailError] = useState(false);
+  const [isValidEmailId, setIsValidEmailId] = useState(true);
+  const [showPasswordError, setShowPasswordError] = useState(false);
+  const [isValidPassword, setIsValidPassword] = useState(true);
   const [formValues, setFormValues] = useState({
     email: "",
     password: "",
   });
+  const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const navigate = useNavigate();
 
   const handleSignIn = async () => {
+    const { email, password } = formValues;
+    if (
+      email === "" ||
+      password === "" ||
+      !emailRegex.test(email) ||
+      password.length < 8
+    ) {
+      if (email === "") {
+        setShowEmailError(true);
+      }
+      if (password === "") {
+        setShowPasswordError(true);
+      }
+      if (!emailRegex.test(email)) {
+        setIsValidEmailId(false);
+      }
+      if (password.length < 8) {
+        setIsValidPassword(false);
+      }
+      return;
+    }
     try {
-      const { email, password } = formValues;
       await createUserWithEmailAndPassword(firebaseAuth, email, password);
     } catch (error) {
-      console.log(error);
+      setFormValues({
+        email: "",
+        password: "",
+      });
     }
   };
 
@@ -30,114 +58,106 @@ function Signup() {
   });
 
   return (
-    <Container showPassword={showPassword}>
+    <div showPassword={showPassword}>
       <BackgroundImage />
-      <div className="content">
+      <div className="bg-[#00000080] w-full h-full absolute top-0 left-0">
         <Header login />
-        <div className="body flex column a-center j-center">
-          <div className="text flex column">
+        <div className="flex justify-center items-center flex-col mt-[20rem] bg-[#000000b0] w-[50vw] mx-auto py-[15px] gap-5">
+          <div className="flex justify-center items-center flex-col text-[24px] gap-3">
             <h1>Unlimited movies, TV shows and more.</h1>
             <h4>Watch anywhere. Cancel anytime.</h4>
             <h6>
               Ready to watch? Enter your email to create or restart membership.
             </h6>
           </div>
-          <div className="form">
-            <input
-              type="email"
-              placeholder="Email address"
-              onChange={(e) =>
-                setFormValues({
-                  ...formValues,
-                  [e.target.name]: e.target.value,
-                })
-              }
-              name="email"
-              value={formValues.email}
-            />
-            {showPassword && (
+          <div className="flex justify-center items-center w-[46vw]">
+            <div className="w-full border border-red-700">
               <input
-                type="password"
-                placeholder="Password"
-                onChange={(e) =>
+                type="email"
+                placeholder="Email address"
+                onChange={(e) => {
                   setFormValues({
                     ...formValues,
                     [e.target.name]: e.target.value,
-                  })
-                }
-                name="password"
-                value={formValues.password}
+                  });
+                  setShowEmailError(false);
+                  setIsValidEmailId(true);
+                }}
+                name="email"
+                value={formValues.email}
+                className="w-full p-[1.2rem] text-black border-none focus:outline-none "
               />
+              {showEmailError && (
+                <div className="text-md font-normal text-red-700 flex justify-start items-center">
+                  Pls provide an Email Id.
+                </div>
+              )}
+              {!showEmailError && !isValidEmailId && (
+                <div className="text-md font-normal text-red-700 flex justify-start items-center">
+                  Pls provide a valid Email Id.
+                </div>
+              )}
+            </div>
+            {showPassword && (
+              <div className="w-full border">
+                <div>
+                  <input
+                    type="password"
+                    placeholder="Password"
+                    onChange={(e) => {
+                      setFormValues({
+                        ...formValues,
+                        [e.target.name]: e.target.value,
+                      });
+                      setShowPasswordError(false);
+                      console.log("setting true in password validity");
+                      setIsValidPassword(true);
+                    }}
+                    name="password"
+                    value={formValues.password}
+                    className="w-full p-[1.2rem] text-black border-none focus:outline-none ml-2 "
+                  />
+                </div>
+                {showPasswordError && (
+                  <div className="pl-[7px] text-md font-normal text-red-700 flex justify-start items-center">
+                    Pls provide an Password.
+                  </div>
+                )}
+                {!showPasswordError && !isValidPassword && (
+                  <div className="pl-[7px] text-md font-normal text-red-700 flex justify-start items-center">
+                    Pls provide a valid Password.
+                  </div>
+                )}
+              </div>
             )}
             {!showPassword && (
-              <button onClick={() => setShowPassword(true)}>Get Started</button>
+              <button
+                onClick={() => setShowPassword(true)}
+                className={`w-[15rem] p-[1.2rem] ${
+                  formValues.email === "" || !emailRegex.test(formValues.email)
+                    ? "bg-gray-600 cursor-not-allowed"
+                    : "bg-[#e50914] "
+                }`}
+                disabled={
+                  formValues.email === "" || !emailRegex.test(formValues.email)
+                }
+              >
+                Get Started
+              </button>
             )}
           </div>
-          {showPassword && <button onClick={handleSignIn}>Log In</button>}
+          {showPassword && (
+            <button
+              onClick={handleSignIn}
+              className="bg-[#e50914] py-[0.8rem] px-[1rem] rounded-[0.2rem] mt-[10px]"
+            >
+              Log In
+            </button>
+          )}
         </div>
       </div>
-    </Container>
+    </div>
   );
-}
-
-const Container = styled.div`
-  position: relative;
-  .content {
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    height: 100vh;
-    width: 100vw;
-    display: grid;
-    grid-template-rows: 15vh 85vh;
-    .body {
-      gap: 1rem;
-      .text {
-        gap: 1rem;
-        text-align: center;
-        font-size: 2rem;
-        h1 {
-          padding: 0 25rem;
-        }
-      }
-      .form {
-        display: grid;
-        grid-template-columns: ${({ showPassword }) =>
-          showPassword ? "1fr 1fr" : "2fr 1fr"};
-        width: 60%;
-        input {
-          color: black;
-          border: none;
-          padding: 1.5rem;
-          font-size: 1.2rem;
-          border: 1px solid black;
-          &:focus {
-            outline: none;
-          }
-        }
-        button {
-          padding: 0.5rem 1rem;
-          background-color: #e50914;
-          border: none;
-          cursor: pointer;
-          color: white;
-          font-weight: bolder;
-          font-size: 1.05rem;
-        }
-      }
-      button {
-        padding: 0.5rem 1rem;
-        background-color: #e50914;
-        border: none;
-        cursor: pointer;
-        color: white;
-        border-radius: 0.2rem;
-        font-weight: bolder;
-        font-size: 1.05rem;
-      }
-    }
-  }
-`;
+};
 
 export default Signup;
